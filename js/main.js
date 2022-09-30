@@ -73,29 +73,6 @@ function showMoviesList(){
     }
 }
 
-// function showToggleTop(){
-
-//     let htmlToggleTop = "";
-//     // for(let i = 0; i < currentJapflix.length; i++){
-//     //     let movies = currentJapflix[i];
-
-//         // if (((inputTag.value.toLowerCase() === undefined) || (movies.title.toLowerCase().indexOf(inputTag.value.toLowerCase()) != -1))){
-
-//             htmlToggleTop += `
-//             <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-//                 <div class="offcanvas-header">
-//                     <h5 id="offcanvasTopLabel">Offcanvas top</h5>
-//                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-//                 </div>
-//                 <div class="offcanvas-body">
-//                     ...
-//                 </div>
-//             </div>
-//             `
-//         document.getElementById("otra").innerHTML = htmlToggleTop;
-//         // }
-//     // }
-// }
 
 function setInfo(movieId){
     const movie = currentJapflix.find(({id})=> id === movieId);
@@ -103,8 +80,15 @@ function setInfo(movieId){
         console.log(movie.genres[0].name);
         document.getElementById("offcanvasTopLabel").innerText = movie.title; 
         document.getElementById("offcanvasText").innerText = movie.overview;
-        document.getElementById("offcanvasGenres").innerText = movie.genres.some(({name})=>name);
-        // movie.genres[0].name +"-"+ movie.genres[1].name +"-"+ movie.genres[2].name
+        document.getElementById("year").innerText = "Year:  " + movie.release_date.slice(0,-6);
+        document.getElementById("runtime").innerText = "Runtime:    " + movie.runtime;
+        document.getElementById("budget").innerText = "Budget:  $" + movie.budget;
+        document.getElementById("revenue").innerText = "Revenue:    $" + movie.revenue;
+        
+        for (let index = 0; index < movie.genres.length; index++) {
+            const element = movie.genres[index];
+            document.getElementById("offcanvasGenres").innerText += element.name + " - ";
+        }
     }
 
 };
@@ -113,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function(e){
     getJSONData(API_URL).then(function(resultObj){
         if (resultObj.status === "ok"){
             currentJapflix = resultObj.data
-            //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
     });
 
@@ -127,8 +110,3 @@ document.addEventListener("DOMContentLoaded", function(e){
 
 
 });
-
-// document.getElementById('btnBuscar').addEventListener("click", function(){
-//     showToggleTop();
-
-// })
